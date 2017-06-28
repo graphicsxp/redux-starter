@@ -1,8 +1,9 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import * as courseActions from '../../actions/courseActions';
 import CourseList from './CourseList';
+import { browserHistory } from 'react-router';
 
 class CoursesPage extends React.Component {
   constructor(props, context) {
@@ -14,6 +15,7 @@ class CoursesPage extends React.Component {
 
     this.onTitleChange = this.onTitleChange.bind(this);
     this.onClickSave = this.onClickSave.bind(this);
+    this.redirectToAddCoursePage = this.redirectToAddCoursePage.bind(this);
   }
 
   componentDidMount() {
@@ -33,12 +35,21 @@ class CoursesPage extends React.Component {
     return <div key={index}>{course.title}</div>;
   }
 
+  redirectToAddCoursePage() {
+    browserHistory.push('/course');
+  }
+
   render() {
-    const {courses} = this.props; // ES6 object destructuring
+    const { courses } = this.props; // ES6 object destructuring
     return (
       <div>
         <h1>Courses</h1>
-        <CourseList courses={courses}></CourseList>
+        <input type="submit"
+          value="Add Course"
+          className="btn btn-primary"
+          onClick={this.redirectToAddCoursePage} />
+
+        <CourseList courses={courses} />
         {/*{this.props.courses.map(this.courseRow)}
         <h2>Add Course</h2>*/}
         {/*<input
