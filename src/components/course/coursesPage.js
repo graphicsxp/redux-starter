@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as courseActions from '../../actions/courseActions';
+import CourseList from './CourseList';
 
 class CoursesPage extends React.Component {
   constructor(props, context) {
@@ -33,12 +34,14 @@ class CoursesPage extends React.Component {
   }
 
   render() {
+    const {courses} = this.props; // ES6 object destructuring
     return (
       <div>
         <h1>Courses</h1>
-        {this.props.courses.map(this.courseRow)}
-        <h2>Add Course</h2>
-        <input
+        <CourseList courses={courses}></CourseList>
+        {/*{this.props.courses.map(this.courseRow)}
+        <h2>Add Course</h2>*/}
+        {/*<input
           type="text"
           onChange={this.onTitleChange}
           value={this.state.course.title} />
@@ -46,7 +49,7 @@ class CoursesPage extends React.Component {
         <input
           type="submit"
           value="Save"
-          onClick={this.onClickSave} />
+          onClick={this.onClickSave} />*/}
       </div>
     );
   }
