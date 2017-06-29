@@ -39,8 +39,9 @@ const CourseForm = ({ course, allAuthors, onSave, onChange, saving, errors }) =>
         type="submit"
         disabled={saving}
         value={saving ? 'Saving...' : 'Save'}
-        className="btn btn-primary"
-        onClick={onSave} />
+        className="btn btn-primary "
+        onClick={onSave}
+         />
     </form>
   );
 };
