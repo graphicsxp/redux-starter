@@ -50,17 +50,6 @@ class CoursesPage extends React.Component {
           onClick={this.redirectToAddCoursePage} />
 
         <CourseList courses={courses} />
-        {/*{this.props.courses.map(this.courseRow)}
-        <h2>Add Course</h2>*/}
-        {/*<input
-          type="text"
-          onChange={this.onTitleChange}
-          value={this.state.course.title} />
-
-        <input
-          type="submit"
-          value="Save"
-          onClick={this.onClickSave} />*/}
       </div>
     );
   }

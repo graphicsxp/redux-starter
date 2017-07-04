@@ -1,3 +1,4 @@
+/*eslint-disable import/default */   //this prevent eslint from complaining we don't have a default export (in configureStore)
 import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';

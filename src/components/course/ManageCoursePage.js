@@ -2,10 +2,18 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as courseActions from '../../actions/courseActions';
-import CourseFormm from './CourseForm';
+import CourseForm from './CourseForm';
 import toastr from 'toastr';
+import { authorsFormattedForDropdown } from '../../selectors/selectors';
 
-class ManageCoursePage extends React.Component {
+//by exporting the class we can test it without using the redux connect feature, which is used in the default export at the bottom of this file.
+//default export will still work just fine as long as we use the following import statement in child components:
+//import ManageCoursePage from './ManageCoursePage';
+//For tests, we'd use the following import statement:
+//import {ManageCoursePage} from './ManageCoursePage';
+
+
+export class ManageCoursePage extends React.Component {
     constructor(props, context) {
         super(props, context);
 
@@ -33,9 +41,28 @@ class ManageCoursePage extends React.Component {
         return this.setState({ course: course });
     }
 
+    courseFormIsValid() {
+        let formIsValid = true;
+        let errors = {};
+
+        if (this.state.course.title.length < 5) {
+            errors.title = 'Title must be at least 5 characters.';
+            formIsValid = false;
+        }
+
+        this.setState({ errors: errors });
+        return formIsValid;
+    }
+
     saveCourse(event) {
         event.preventDefault();
+
+        if (!this.courseFormIsValid()) {
+            return;
+        }
+
         this.setState({ saving: true });
+
         this.props.actions.saveCourse(this.state.course)
             .then(() => this.redirect())
             .catch(error => {
@@ -52,7 +79,7 @@ class ManageCoursePage extends React.Component {
 
     render() {
         return (
-            <CourseFormm
+            <CourseForm
                 onChange={this.updateCourseState}
                 onSave={this.saveCourse}
                 allAuthors={this.props.authors}
@@ -90,17 +117,9 @@ function mapStateToProps(state, ownProps) {
         course = getCourseById(state.courses, courseId);
     }
 
-    const authorsFormattedForDropdown = state.authors.map(author => {
-        return {
-            value: author.id,
-            text: author.firstName + ' ' + author.lastName
-        };
-    });
-
     return {
         course: course,
-        authors: authorsFormattedForDropdown
-
+        authors: authorsFormattedForDropdown(state.authors)
     };
 }
 
